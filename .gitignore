@@ -1,0 +1,65 @@
+# -----------------------------------------------------------------------------
+# Git Ignore Rules for AURAF (Adaptive Unified Runtime Architecture for Flutter)
+# -----------------------------------------------------------------------------
+
+# Miscellaneous / OS
+*.DS_Store
+*.swp
+*~
+Thumbs.db
+
+# IDE and Editor Files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# Dart & Flutter Build Artifacts
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+flutter_*.png
+
+# Android Build & Signing Artifacts
+.gradle/
+local.properties
+**/android/**/build/
+**/android/**/.gradle/
+*.apk
+*.aab
+*.dex
+*.class
+*.keystore
+*.jks
+
+# iOS & macOS Build Artifacts (if initialized)
+**/ios/**/Pods/
+**/ios/**/.symlinks/
+**/ios/**/Flutter/Flutter.framework
+**/ios/**/Flutter/Flutter.podspec
+**/ios/**/DerivedData/
+**/macos/**/Pods/
+**/macos/**/.symlinks/
+**/macos/**/Flutter/ephemeral/
+
+# Benchmark Execution Results & Telemetry Dumps
+# Keep the directory tracked with .gitkeep while ignoring generated runtime outputs
+results/*
+!results/.gitkeep
+*.csv
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Sensitive Credentials & Local Configuration
+.env
+.env.*
+secrets.json
+service_account.json
