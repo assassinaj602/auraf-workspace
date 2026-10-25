@@ -1,0 +1,84 @@
+[
+  {
+    "id": "prof_05k_01",
+    "split": "profiling",
+    "target_tokens": 512,
+    "category": "code_optimization",
+    "description": "Short code review and asymptotic complexity analysis of a Flutter list-view caching routine.",
+    "prompt": "You are an expert Flutter runtime engineer. Analyze the following caching logic for a high-frequency ListView. Identify memory leaks, evaluate asymptotic time and space complexity, and rewrite the method to minimize unnecessary object allocations on the UI thread.\n\n```dart\nclass CacheManager {\n  final Map<String, dynamic> _cache = {};\n  List<String> getKeys() => _cache.keys.toList();\n  void put(String key, dynamic val) {\n    if (_cache.length > 500) {\n      _cache.remove(_cache.keys.first);\n    }\n    _cache[key] = val;\n  }\n  dynamic get(String key) => _cache[key];\n}\n```\n\nProvide concrete performance recommendations concerning garbage collection pauses, LRU eviction efficiency, and compute thread isolation.",
+    "expected_response_tokens": 256
+  },
+  {
+    "id": "prof_05k_02",
+    "split": "profiling",
+    "target_tokens": 512,
+    "category": "mathematical_reasoning",
+    "description": "Lyapunov drift-plus-penalty queue stabilization proof question.",
+    "prompt": "Explain the role of virtual deficit queues in Lyapunov stochastic optimization. Specifically, explain why minimizing the conditional Lyapunov drift delta(L(Theta(t))) subject to an auxiliary penalty term V * Cost(t) guarantees that the underlying physical or virtual queues remain strongly stable while asymptotically achieving within O(1/V) of the optimal cost. State the necessary boundedness assumptions on queue arrivals and service rates.",
+    "expected_response_tokens": 300
+  },
+  {
+    "id": "prof_2k_01",
+    "split": "profiling",
+    "target_tokens": 2048,
+    "category": "system_architecture",
+    "description": "Medium-context architectural review of cross-platform SLM execution engine with hardware acceleration.",
+    "prompt": "You are reviewing the architecture of an on-device Small Language Model (SLM) runtime targeting Android ARM64 devices running Flutter. The application uses ONNX Runtime Mobile and Google MediaPipe / TFLite LLM inference pipelines with 4-bit integer quantization (INT4 AWQ / GPTQ).\n\nBelow is the specification of the execution pipeline:\n1. Prompt Tokenization: Handled in native C++ via byte-pair encoding (BPE).\n2. Hardware Acceleration: Fallback cascade: Android NNAPI -> Qualcomm QNN / Adreno OpenCL GPU -> ARM NEON CPU multi-threading (4 threads).\n3. Memory Budget: Target maximum resident set size (RSS) < 850 MB on devices with 6 GB total RAM.\n4. KV Cache Allocation: PagedAttention mechanism using 16 MB pre-allocated slabs to eliminate runtime memory fragmentation.\n5. Inter-process Communication: Flutter Dart FFI direct memory buffer sharing via Pointer<Uint8> without crossing Java/Kotlin JNI barriers.\n\nPerform a comprehensive evaluation addressing:\n- What are the primary bottlenecks when streaming autoregressive tokens at batch size 1?\n- Under what conditions does Android's Low Memory Killer (LMK) terminate the foreground application, and how does PagedAttention mitigate oom_score_adj inflation?\n- Analyze thermal throttling patterns when the CPU core cluster sustains 100% duty cycle for more than 45 seconds.\n- Propose an adaptive thread-pool throttling heuristic based on thermal sensor interrupts from /sys/class/thermal/thermal_zone.",
+    "expected_response_tokens": 512
+  },
+  {
+    "id": "prof_8k_01",
+    "split": "profiling",
+    "target_tokens": 8192,
+    "category": "document_synthesis",
+    "description": "Long-context retrieval and multi-document synthesis over mobile OS resource management specifications.",
+    "prompt": "The following text represents a comprehensive specification document detailing Android 14 Power Management, Battery Historian metrics, Network Jitter Compensation, and Mobile LLM Quantization trade-offs. Read the document thoroughly and synthesize the operational boundaries for autonomous mobile agents.\n\n[SECTION 1: ANDROID POWER RAILS AND DISCHARGE CHARACTERISTICS]\nModern mobile system-on-chip (SoC) architectures deploy heterogeneous multiprocessing (e.g. ARM big.LITTLE / DynamIQ) comprising high-performance prime cores, balanced performance cores, and energy-efficient cores. During neural network inference, matrix multiply operations executed on CPU NEON units drive battery discharge currents to peaks between 1200 mA and 2400 mA at nominal 3.85V battery rail voltages, resulting in instantaneous power dissipation exceeding 4.5 Watts to 9.2 Watts. In contrast, cloud API offloading transitions the cellular or Wi-Fi radio from idle/sleep states to active high-power RRC_CONNECTED states. For 5G NR (New Radio), active transmissions incur a baseline modem power step of ~1.2 Watts, with Tail Times extending from 10 to 15 seconds before the radio resource control returns to discontinuous reception (C-DRX) or idle states.\n\n[SECTION 2: QUANTIZATION LOSS AND PERPLEXITY]\nWeight-only quantization methods (W4A16) quantize dense feed-forward and projection weight matrices to 4-bit unsigned representations while retaining 16-bit floating-point activations. For parameters in Gemma 2B and Phi-3 Mini, 4-bit quantization reduces model memory footprints from ~4.2 GB down to ~1.3 GB, fitting comfortably within mobile consumer device constraints. However, quantization noise degrades generation accuracy on structured reasoning tasks by 2.4% to 4.8% relative perplexity. Activation outliers in key-value projection heads require group-wise scaling (group size 32 or 64) or asymmetric zero-point compensation to prevent catastrophic hallucination in prompts exceeding 2048 tokens.\n\n[SECTION 3: NETWORK TRAFFIC TRADEOFFS]\nUnder intermittent wireless channels, TCP head-of-line blocking and retransmissions introduce tail latencies that frequently breach mobile Service Level Agreements (SLAs). When round-trip time (RTT) spikes above 350 ms, Time To First Token (TTFT) for cloud endpoints degrades from ~250 ms to well over 1800 ms. Therefore, when network connectivity drops to 'intermittent' or 'offline', local execution is mandatory regardless of battery deficit.\n\n[INSTRUCTIONS]:\nBased on the entire text above, synthesize a complete decision policy table for our runtime engine across all 4 network conditions (stable, high_latency, intermittent, offline) and 3 prompt tiers (0.5k, 2k, 8k). Specifically contrast expected mAh energy drain vs API dollar cost and evaluate the SLA violation boundary.",
+    "expected_response_tokens": 768
+  },
+  {
+    "id": "val_05k_01",
+    "split": "validation",
+    "target_tokens": 512,
+    "category": "edge_inference",
+    "description": "Validation trace: Short prompt evaluating prompt compression fidelity.",
+    "prompt": "Evaluate the trade-off between semantic summarization and token-level pruning for an incoming user query. If a prompt of 512 tokens is pruned down to 128 tokens by removing low-entropy stopwords and filler phrases, what is the expected impact on retrieval accuracy for factual question answering? Formulate a mathematical objective balancing token reduction against cosine similarity loss.",
+    "expected_response_tokens": 256
+  },
+  {
+    "id": "val_2k_01",
+    "split": "validation",
+    "target_tokens": 2048,
+    "category": "latency_modeling",
+    "description": "Validation trace: Empirical latency modeling and regression fitting for TTFT across cloud providers.",
+    "prompt": "You are analyzing experimental latency traces collected from Google Gemini 1.5 Flash and Anthropic Claude 3.5 Haiku under simulated network jitter (250 ms RTT, 5% packet loss). Formulate an empirical probability density function (PDF) for Time To First Token (TTFT) and decode throughput. Discuss how tail latency (p95 and p99) influences the Lyapunov parameter V in mobile SLA enforcement.",
+    "expected_response_tokens": 400
+  },
+  {
+    "id": "test_05k_01",
+    "split": "test",
+    "target_tokens": 512,
+    "category": "benchmark_test",
+    "description": "Out-of-sample test prompt: Logical reasoning and decision tree traversal.",
+    "prompt": "An autonomous mobile assistant must execute an urgent translation task while the smartphone has 14% battery remaining, is discharging at -850 mA, has reached 39.5°C battery temperature, and is connected to a 4G network with 180 ms RTT. Formulate the exact decision vector: placement (cloud vs device), context budget, and thread count. Justify your answer using thermal and energy constraints.",
+    "expected_response_tokens": 256
+  },
+  {
+    "id": "test_2k_01",
+    "split": "test",
+    "target_tokens": 2048,
+    "category": "benchmark_test",
+    "description": "Out-of-sample test prompt: Multi-agent coordination and SLA optimization.",
+    "prompt": "Review the multi-agent task distribution protocol for a collaborative mobile fleet where edge nodes share inference burdens. Detail how virtual deficit queues Qe and Qq prevent node death and thermal cascading across ad-hoc peer networks.",
+    "expected_response_tokens": 450
+  },
+  {
+    "id": "test_8k_01",
+    "split": "test",
+    "target_tokens": 8192,
+    "category": "benchmark_test",
+    "description": "Out-of-sample test prompt: Long-context legal and technical compliance audit.",
+    "prompt": "Read the following extensive technical audit specification for on-device machine learning software. Synthesize all mandatory constraints regarding data privacy, local data retention limits, platform channel telemetry serialization overhead, and battery drain thresholds. Provide an audit checklist suitable for formal verification.",
+    "expected_response_tokens": 800
+  }
+]
+
