@@ -1,0 +1,22 @@
+name: auraf_benchmark_harness
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
+
+dependencies:
+  auraf:
+    path: ../packages/auraf
+  flutter:
+    sdk: flutter
+  path: ^1.8.3
+  path_provider: ^2.1.4
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  integration_test:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
+  test: ^1.31.1
