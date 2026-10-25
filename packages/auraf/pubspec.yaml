@@ -1,16 +1,18 @@
 name: auraf
-description: Core engine and runtime optimizer for AURAF (Adaptive Unified Runtime Architecture for Flutter).
-version: 0.1.0
+description: Core engine, runtime telemetry, and benchmark logging for AURAF.
 publish_to: none
+version: 0.1.0
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
-  flutter: '>=3.0.0'
+  flutter: '>=3.10.0'
 
 dependencies:
   flutter:
     sdk: flutter
   meta: ^1.11.0
+  path: ^1.8.3
+  sqflite: ^2.3.3+1
 
 dev_dependencies:
   flutter_lints: ^3.0.0
