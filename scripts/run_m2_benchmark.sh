@@ -23,15 +23,28 @@ export ANDROID_SERIAL="${ANDROID_SERIAL:-${DEVICES[0]}}"
 PACKAGE_NAME="com.example.auraf_benchmark_harness"
 cd "${ROOT_DIR}/benchmark_harness"
 flutter pub get
-flutter test integration_test/m2_benchmark_test.dart
+
+LOG_OUTPUT="$(mktemp)"
+flutter test integration_test/m2_benchmark_test.dart 2>&1 | tee "${LOG_OUTPUT}"
 
 cd "${ROOT_DIR}"
 mkdir -p "$(dirname "${RESULT_FILE}")"
-if ! adb exec-out run-as "${PACKAGE_NAME}" \
-  cat "app_flutter/m2_benchmark_results.csv" > "${RESULT_FILE}"; then
-  echo "error: could not pull CSV from the benchmark device" >&2
+
+# 1. Primary: Extract tagged CSV directly from test stdout (reliable across all Android OEMs)
+if grep -q "AURAF_CSV_START" "${LOG_OUTPUT}"; then
+  sed -n '/AURAF_CSV_START/,/AURAF_CSV_END/{ /AURAF_CSV_START/d; /AURAF_CSV_END/d; p; }' "${LOG_OUTPUT}" > "${RESULT_FILE}"
+# 2. Secondary fallback: Pull from device storage
+elif adb pull /sdcard/Download/m2_benchmark_results.csv "${RESULT_FILE}" >/dev/null 2>&1; then
+  :
+# 3. Tertiary fallback: run-as app data
+elif adb exec-out run-as "${PACKAGE_NAME}" cat "app_flutter/m2_benchmark_results.csv" > "${RESULT_FILE}" 2>/dev/null; then
+  :
+else
+  echo "error: could not retrieve benchmark CSV from device or test stream" >&2
+  rm -f "${LOG_OUTPUT}"
   exit 1
 fi
+rm -f "${LOG_OUTPUT}"
 if [[ ! -f "${RESULT_FILE}" ]]; then
   echo "error: benchmark did not create ${RESULT_FILE}" >&2
   exit 1

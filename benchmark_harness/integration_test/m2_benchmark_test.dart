@@ -78,6 +78,16 @@ void main() {
       ),
     );
     expect(await output.exists(), isTrue);
+
+    final csvContent = await output.readAsString();
+    try {
+      final publicFile = File('/sdcard/Download/m2_benchmark_results.csv');
+      await publicFile.writeAsString(csvContent);
+    } catch (_) {}
+    // Print tagged CSV so test runner can extract reliably across all OEM Androids
+    // ignore: avoid_print
+    print('AURAF_CSV_START\n$csvContent\nAURAF_CSV_END');
+
     await database.close();
   });
 }
