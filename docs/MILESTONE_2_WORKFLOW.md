@@ -93,11 +93,11 @@ To guarantee that git merges are 100% clean, neither developer should modify fil
 
 ### Step 1: Initial Setup on Both Laptops
 
-Both Assad and Hammas should clone the repository from your shared GitHub remote (replace `<REMOTE_URL>` with your actual repository URL):
+Both Assad and Hammas should clone the repository from your shared GitHub remote:
 
 ```bash
 # Clone the repository
-git clone <REMOTE_URL> auraf-workspace
+git clone https://github.com/assassinaj602/auraf-workspace.git
 cd auraf-workspace
 
 # Verify main branch and status
@@ -215,3 +215,4 @@ For the Milestone 2 demonstration, both members present together using **one lap
    * Verify all 15 columns are properly populated:
      `run_id, timestamp, device_model, network_condition, context_budget, placement, ttft_ms, total_latency_ms, tokens_per_sec, energy_mah, peak_memory_mb, temp_celsius, cost_usd, quality_score, constraint_violated`
    * Confirm that system collector overhead remains strictly under 10% CPU/memory usage.
+
