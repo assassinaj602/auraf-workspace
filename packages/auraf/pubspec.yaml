@@ -1,15 +1,30 @@
 name: auraf
-description: AURAF runtime telemetry and benchmark logging.
+description: Core engine, runtime telemetry, and benchmark logging for AURAF.
 publish_to: none
 version: 0.1.0
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.10.0"
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
 
 dependencies:
   flutter:
     sdk: flutter
+  meta: ^1.11.0
   path: ^1.8.3
   sqflite: ^2.3.3+1
 
+dev_dependencies:
+  flutter_lints: ^3.0.0
+  flutter_test:
+    sdk: flutter
+  test: ^1.24.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.auraf.telemetry
+        pluginClass: AurafTelemetryPlugin
+  assets:
+    - assets/prompts.json
